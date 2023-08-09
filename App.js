@@ -17,19 +17,16 @@ const customTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: "#570df8",    
-    secondary: "#f000b8",
-    warning: "#fbbd23",             
+    primary: "#426da5",    
+    secondary: "#80bc36",
+    warning: "#f0cf60",             
     accent: "#1dcdbc",
-    error: "#f87272",
+    error: "#e03e56",
     background:"#ffffff",
     surfaceVariant:"#e6e6e6",
     surface:"#e6e6e6",
     secondaryContainer:"#e6e6e6",
     primaryContainer:"#e6e6e6",
-    surfaceDisabled:"red",
-    inverseSurface:"red",
-    inversePrimary:"red"
 
   },
 };

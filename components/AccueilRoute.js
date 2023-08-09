@@ -1,16 +1,44 @@
 import * as React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton, Text } from "react-native-paper";
+import { Avatar, Card, IconButton, Text, Badge,Button } from "react-native-paper";
 
 const AccueilRoute = ({ navigation }) => {
   const points = 15;
-  const listBestComp = [{title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:1},
-  {title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:2},
-  {title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:3}];
+  const listBestComp = [
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 1,
+    },
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 2,
+    },
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 3,
+    },
+  ];
 
-  const listEvent = [{title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:1},
-  {title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:2},
-  {title:"toloman",subtitle:"toloman sé on antrepise ki lé mété an avant...",id:3}]
+  const listEvent = [
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 1,
+    },
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 2,
+    },
+    {
+      title: "toloman",
+      subtitle: "toloman sé on antrepise ki lé mété an avant...",
+      id: 3,
+    },
+  ];
 
   return (
     <View style={style.container}>
@@ -21,69 +49,87 @@ const AccueilRoute = ({ navigation }) => {
       <View style={style.mainSectionEvent}>
         <Text variant="titleLarge">Evènements</Text>
         <FlatList
-        horizontal={true}
-        data={listEvent}
-        renderItem={({item}) => {
-          return <Card style={{margin:10}}  mode="contained">
-          <Card.Title
-              title={item.title}
-              subtitle={item.subtitle}
-              left={(props) => <Avatar.Icon {...props} icon="calendar" />}
-
-            />
-          </Card>
-        }}
-        keyExtractor={item => item.id}
-      />
-
+          horizontal={true}
+          data={listEvent}
+          renderItem={({ item }) => {
+            return (
+              <Card style={{ margin: 10 }} mode="contained">
+                <Card.Title
+                  title={'10/02/2022 '+item.title}
+                  subtitle={item.subtitle}
+                  left={(props) => <Avatar.Icon {...props} icon="calendar" />}
+                />
+              </Card>
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        />
       </View>
 
       <View style={style.mainSection}>
         <Text variant="titleLarge">Proche de chez vous</Text>
         <FlatList
-        data={listEvent}
-        renderItem={({item}) => {
-          return <Card style={{margin:5}}  mode="contained">
-          <Card.Title
-              title={item.title}
-              subtitle={item.subtitle}
-              left={(props) => <Avatar.Icon {...props} icon="store" />}
-              right={(props) => (
-                <IconButton
-                  {...props}
-                  icon="dots-vertical"
-                  onPress={() => {}}
+          data={listEvent}
+          renderItem={({ item }) => {
+            return (
+              <Card style={{ margin: 5 }} mode="contained">
+                <Badge>Fortement recommandée</Badge>
+                <Card.Title
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  left={(props) => <Avatar.Icon {...props} icon="store" />}
+                  right={(props) => <Text variant="displaySmall">3.5</Text>}
                 />
-              )}
-            />
-          </Card>
-        }}
-        keyExtractor={item => item.id}
-      />
+                <View
+                  style={{
+                    width: "100%",
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    paddingBottom: 5,
+                  }}
+                >
+                    <Button mode="text" onPress={() => callCompany('0645629957')} >Tél.: 0656585</Button>
+                  <Button mode="text" onPress={() => sendEmail('ramael.bruno@gmail.com')} >Mail: ramael.bruno@gmail.com</Button>
+                </View>
+              </Card>
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        />
       </View>
 
       <View style={style.mainSection}>
         <Text variant="titleLarge">Meilleures entreprises</Text>
         <FlatList
-        data={listEvent}
-        renderItem={({item}) => {
-          return <Card style={{margin:5}} mode="contained">
-          <Card.Title
-              title={item.title}
-              subtitle={item.subtitle}
-              left={(props) => <Avatar.Icon {...props} icon="store" />}
-              right={(props) => (
-                <IconButton
-                  {...props}
-                  icon="dots-vertical"
-                  onPress={() => {}}
+          data={listEvent}
+          renderItem={({ item }) => {
+            return (
+              <Card style={{ margin: 5 }} mode="contained">
+                <Badge>Entreprise prometteuse</Badge>
+                <Card.Title
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  left={(props) => <Avatar.Icon {...props} icon="store" />}
+                  right={(props) => <Text variant="displaySmall">2.5</Text>}
                 />
-              )}
-            />
-          </Card>
-        }}
-        keyExtractor={item => item.id}
-      />
+                <View
+                  style={{
+                    width: "100%",
+                    flexDirection: "row",
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    paddingBottom: 5,
+                  }}
+                >
+                    <Button mode="text" onPress={() => callCompany('0645629957')} >Tél.: 0656585</Button>
+                  <Button mode="text" onPress={() => sendEmail('ramael.bruno@gmail.com')} >Mail: ramael.bruno@gmail.com</Button>
+                </View>
+              </Card>
+            );
+          }}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
@@ -107,12 +153,12 @@ const style = StyleSheet.create({
     flex: 0.25,
     width: "100%",
     justifyContent: "end",
-    margin:20,
+    margin: 20,
     paddingLeft: 20,
   },
   mainSection: {
     flex: 0.35,
-    margin:20,
+    margin: 20,
     width: "100%",
     justifyContent: "end",
     paddingLeft: 20,

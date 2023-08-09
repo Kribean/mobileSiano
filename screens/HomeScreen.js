@@ -29,7 +29,7 @@ const HomeScreen = () => {
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
-      barStyle={{ backgroundColor: '#570df8' }}
+      barStyle={{ backgroundColor: '#426da5' }}
       inactiveColor='white'
     />
   );

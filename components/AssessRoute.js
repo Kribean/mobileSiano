@@ -1,8 +1,10 @@
 import * as React from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton, Text } from "react-native-paper";
+import { Avatar, Card, IconButton, Text, Button } from "react-native-paper";
+import CardScore from "./CardScore";
 
 const CompanyRoute = ({ navigation }) => {
+
   const listEvent = [
     {
       title: "toloman",
@@ -31,43 +33,7 @@ const CompanyRoute = ({ navigation }) => {
           data={listEvent}
           renderItem={({ item }) => {
             return (
-              <Card
-                style={{ flex: 0.5, height: 200, margin: 10 }}
-                mode="contained"
-              >
-                <Card.Title
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon="store" />}
-                />
-                <View style={{ flexDirection: "row" }}>
-                  <Avatar.Icon
-                    size={39}
-                    style={{ marginHorizontal: 10 }}
-                    icon="star"
-                  />
-                  <Avatar.Icon
-                    size={39}
-                    style={{ marginHorizontal: 10 }}
-                    icon="star"
-                  />
-                  <Avatar.Icon
-                    size={39}
-                    style={{ marginHorizontal: 10 }}
-                    icon="star"
-                  />
-                  <Avatar.Icon
-                    size={39}
-                    style={{ marginHorizontal: 10 }}
-                    icon="star"
-                  />
-                  <Avatar.Icon
-                    size={39}
-                    style={{ marginHorizontal: 10 }}
-                    icon="star"
-                  />
-                </View>
-              </Card>
+              <CardScore item={item}/>
             );
           }}
           keyExtractor={(item) => item.id}
