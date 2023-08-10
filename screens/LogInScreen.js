@@ -18,12 +18,12 @@ const CheckoutScreen = ({navigation}) => (
         <TextInput
         mode="outlined"
       label="Année de naissance"
-      //style={{width:200}}
+      style={{width:200}}
       value={""}
       onChangeText={text => {}}
     />
 <View style={{justifyContent:"end",padding:20}}>
-<Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
+<Button mode="contained" onPress={() => navigation.navigate("Home")}>
     Valider
   </Button>
 </View>

@@ -1,6 +1,13 @@
 import * as React from "react";
-import { FlatList, View, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton, Text, Badge,Button } from "react-native-paper";
+import { FlatList, View, StyleSheet, Linking } from "react-native";
+import {
+  Avatar,
+  Card,
+  IconButton,
+  Text,
+  Badge,
+  Button,
+} from "react-native-paper";
 
 const AccueilRoute = ({ navigation }) => {
   const points = 15;
@@ -40,6 +47,21 @@ const AccueilRoute = ({ navigation }) => {
     },
   ];
 
+  const callCompany = (phoneNumber) => {
+    const phoneUrl = `tel:${phoneNumber}`;
+    Linking.openURL(phoneUrl);
+  };
+
+  const sendEmail = (emailAddress) => {
+    const emailUrl = `mailto:${emailAddress}`;
+    Linking.openURL(emailUrl);
+  };
+
+  const sendToMap = (adress) => {
+    const adressUrl = `https://www.google.com/maps/place/${adress}`;
+    Linking.openURL(adressUrl);
+  };
+
   return (
     <View style={style.container}>
       <View style={style.scoreSection}>
@@ -55,7 +77,7 @@ const AccueilRoute = ({ navigation }) => {
             return (
               <Card style={{ margin: 10 }} mode="contained">
                 <Card.Title
-                  title={'10/02/2022 '+item.title}
+                  title={"10/02/2022 " + item.title}
                   subtitle={item.subtitle}
                   left={(props) => <Avatar.Icon {...props} icon="calendar" />}
                 />
@@ -89,8 +111,23 @@ const AccueilRoute = ({ navigation }) => {
                     paddingBottom: 5,
                   }}
                 >
-                    <Button mode="text" onPress={() => callCompany('0645629957')} >Tél.: 0656585</Button>
-                  <Button mode="text" onPress={() => sendEmail('ramael.bruno@gmail.com')} >Mail: ramael.bruno@gmail.com</Button>
+                  <Button
+                    mode="text"
+                    onPress={() =>
+                      sendToMap("5 Rue Bertrand Panouse, 31170 Tournefeuille")
+                    }
+                  >
+                    Adresse.
+                  </Button>
+                  <Button mode="text" onPress={() => callCompany("0645629957")}>
+                    Tél.
+                  </Button>
+                  <Button
+                    mode="text"
+                    onPress={() => sendEmail("ramael.bruno@gmail.com")}
+                  >
+                    Mail.
+                  </Button>
                 </View>
               </Card>
             );
@@ -122,8 +159,23 @@ const AccueilRoute = ({ navigation }) => {
                     paddingBottom: 5,
                   }}
                 >
-                    <Button mode="text" onPress={() => callCompany('0645629957')} >Tél.: 0656585</Button>
-                  <Button mode="text" onPress={() => sendEmail('ramael.bruno@gmail.com')} >Mail: ramael.bruno@gmail.com</Button>
+                  <Button
+                    mode="text"
+                    onPress={() =>
+                      sendToMap("5 Rue Bertrand Panouse, 31170 Tournefeuille")
+                    }
+                  >
+                    Adresse.
+                  </Button>
+                  <Button mode="text" onPress={() => callCompany("0645629957")}>
+                    Tél.
+                  </Button>
+                  <Button
+                    mode="text"
+                    onPress={() => sendEmail("ramael.bruno@gmail.com")}
+                  >
+                    Mail.
+                  </Button>
                 </View>
               </Card>
             );

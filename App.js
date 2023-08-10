@@ -22,6 +22,7 @@ const customTheme = {
     warning: "#f0cf60",             
     accent: "#1dcdbc",
     error: "#e03e56",
+    info: "#a7bfe6",
     background:"#ffffff",
     surfaceVariant:"#e6e6e6",
     surface:"#e6e6e6",

@@ -1,11 +1,13 @@
 import * as React from "react";
 import { FlatList, View, StyleSheet,Linking } from "react-native";
-import { Avatar, Card, IconButton, Text,Modal, Portal,Button,Chip,Badge } from "react-native-paper";
+import { Avatar, Card, IconButton, Text,Modal, Portal,Button,Chip,Badge,Switch } from "react-native-paper";
 
 const CompanyRoute = ({ navigation }) => {
   const [visible, setVisible] = React.useState(false);
   const [tabOfThematics, setTabOfThematics] = React.useState([]);
+  const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
+  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = {backgroundColor: 'white', padding: 20};
@@ -17,6 +19,12 @@ const CompanyRoute = ({ navigation }) => {
   const dataTheme = [
     {
       activity: "Activité sportive",
+    },
+    {
+      activity: "Alimentation et quotidien",
+    },
+    {
+      activity: "Automobile et transport",
     },
     {
       activity: "Agriculture et Pêche",
@@ -37,13 +45,22 @@ const CompanyRoute = ({ navigation }) => {
       activity: "Commerce, Vente et Grande distribution",
     },
     {
-      activity: "Beauté et Bien être",
+      activity: "Beauté et Coiffure",
+    },
+    {
+      activity: "Boulangerie et Patisserie",
     },
     {
       activity: "Communication, Média et Multimédia",
     },
     {
       activity: "Construction, Bâtiment et Travaux publics",
+    },
+    {
+      activity: "Dépannage et installation",
+    },
+    {
+      activity: "Enseignement",
     },
     {
       activity: "Hôtellerie-Restauration, Tourisme, Loisirs et Animation",
@@ -55,7 +72,13 @@ const CompanyRoute = ({ navigation }) => {
       activity: "Installation et Maintenance",
     },
     {
-      activity: "Santé",
+      activity: "Logements",
+    },
+    {
+      activity: "Santé et Bien être",
+    },
+    {
+      activity: "Services",
     },
     {
       activity: "Services à la personne et à la collectivité",
@@ -93,6 +116,11 @@ const CompanyRoute = ({ navigation }) => {
     const emailUrl = `mailto:${emailAddress}`;
     Linking.openURL(emailUrl);
   };
+
+  const sendToMap = (adress)=> {
+    const adressUrl = `https://www.google.com/maps/place/${adress}`;
+    Linking.openURL(adressUrl);
+  };
   return (
     <View style={style.container}>
 <Portal >
@@ -108,10 +136,16 @@ const CompanyRoute = ({ navigation }) => {
         </Modal>
       </Portal>
 <View style={style.firstSection}>
-<Text variant="titleLarge">Liste des entreprises</Text>
+<Text style={{margin:20}} variant="titleLarge">Liste des entreprises</Text>
+<View style={{width:"100%",flexDirection:"column"}}>
 <Button icon="store" mode="contained" style={{margin: 20, width:200}} onPress={showModal}>
        Rechercher entreprise
       </Button>
+<View style={{flexDirection:"row",justifyContent:"flex-end"}}>
+<Text variant="labelMedium">Afficher les Meilleures Entreprises</Text>
+      <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+</View>
+</View>
       <FlatList
       horizontal={true}
         data={tabOfThematics}
@@ -150,6 +184,7 @@ const CompanyRoute = ({ navigation }) => {
                   </Text>
                   <Text variant="labelMedium">confiture de mangue, confiture de goyave</Text>
 <View style={{flexDirection:"column", marginTop:10}}>
+<Button mode="text" onPress={() => sendToMap('5 Rue Bertrand Panouse, 31170 Tournefeuille')} >Adresse: 5 Rue Bertrand Panouse, 31170 Tournefeuille</Button>
                   <Button mode="text" onPress={() => callCompany('0645629957')} >Téléphone: 0656585</Button>
                   <Button mode="text" onPress={() => sendEmail('ramael.bruno@gmail.com')} >Mail: ramael.bruno@gmail.com</Button>
 </View>
@@ -175,14 +210,14 @@ const style = StyleSheet.create({
     justifyContent: "center",
   },
   mainSection: {
-    flex: 0.65,
+    flex: 0.59,
     margin:20,
     width: "100%",
     justifyContent: "center",
     paddingLeft: 20,
   },
   firstSection: {
-    flex: 0.35,
+    flex: 0.41,
     width: "100%",
     justifyContent: "center",
   }
