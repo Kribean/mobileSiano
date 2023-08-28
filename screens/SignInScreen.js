@@ -7,21 +7,33 @@ import {
   Portal,
   Modal,
   Chip,
+  useTheme
 } from "react-native-paper";
+import AlertSignInComponent from "../components/AlertSignInComponent";
+
 
 const SignInScreen = ({ navigation }) => {
+  const theme = useTheme();
+
   const [visible, setVisible] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(true);
   const [validateForm, setValidateForm] = useState(false);
-  const [tabOfThematics, setTabOfThematics] = useState([]);
+
+  const [listOfThematics, setListOfThematics] = useState([]);
+  const [userName,setUserName] = useState("");
+  const [phoneNumber,setPhoneNumber]=useState("");
+  const [yearOfBirth,setYearOfBirth]=useState("");
+  const [postalCode,setPostalCode]=useState("");
+
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 20 };
 
   useEffect(() => {
-    if (tabOfThematics.length > 0) {
+    if (listOfThematics.length > 0) {
       setValidateForm(true);
     }
-  }, [tabOfThematics]);
+  }, [listOfThematics]);
   const dataTheme = [
     {
       activity: "Activité sportive",
@@ -101,30 +113,66 @@ const SignInScreen = ({ navigation }) => {
   ];
 
   const addThematic = (theme) => {
-    if (!tabOfThematics.includes(theme)) {
-      setTabOfThematics([...tabOfThematics, theme]);
+    if (!listOfThematics.includes(theme)) {
+      setListOfThematics([...listOfThematics, theme]);
     }
   };
 
   const removeThematic = (theme) => {
-    if (tabOfThematics.length > 0) {
-      const tab = tabOfThematics.filter((element) => !(element == theme));
-      setTabOfThematics(tab);
+    if (listOfThematics.length > 0) {
+      const tab = listOfThematics.filter((element) => !(element == theme));
+      setListOfThematics(tab);
     }
   };
+
+  const filterNonNumeric = (input) => {
+    return input.replace(/\D/g, "");
+  };
+
+  const handleNumberChange = (event, funcSet) => {
+    const numericValue = filterNonNumeric(event);
+    funcSet(numericValue);
+  };
+
+  const goToNextStepIsChart = () => {
+    if (
+      userName.length > 2 &&
+      phoneNumber.length == 10 &&
+      yearOfBirth.length == 4 &&
+      postalCode.length > 2 &&
+      postalCode.length > 1 &&
+      listOfThematics.length>0 
+    ) {
+     return ;
+    }
+
+    
+
+  };
+
   return (
 
       <View style={style.container}>
-
+{errorAlert&&<AlertSignInComponent     
+    typeOfNotification={"typeOfNotification"}
+    title={"Oops!"}
+    description={"Il y' a un problème de connexion. Avez vous déjà créé un compte avec ce numéro de téléphone? N'hésitez pas à nous le mentionner en cliquant sur le bouton ci-dessous si vous pensez qu'il y a un problème."}
+    setErrorAlert={setErrorAlert}
+    />}
               <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={containerStyle}
         >
+          <View style={{flexDirection:"row"}}>
+          <Button buttonColor={theme.colors.error} style={{width:100}} icon="close" mode="contained" onPress={hideModal}>
+    Fermer
+  </Button>
+          </View>
           <FlatList
             style={{ height: 500 }}
-            data={dataTheme}
+            data={dataTheme.filter((element)=>{return !listOfThematics.includes(element.activity)})}
             renderItem={({ item }) => (
               <Button
                 style={{ margin: 5 }}
@@ -141,36 +189,40 @@ const SignInScreen = ({ navigation }) => {
         
           <Image
             resizeMode="contain"
-            style={{ width: 320 }}
+            style={{ width: 100 }}
             source={require("../assets/siano-black.png")}
           />
           <TextInput
             mode="outlined"
             label="Prénom"
+            maxLength={20}
             style={{ width: 200, margin: 10 }}
-            value={""}
-            onChangeText={(text) => {}}
+            value={userName}
+            onChangeText={(event) => {setUserName(event)}}
           />
           <TextInput
             mode="outlined"
             label="Numéro de téléphone"
+            maxLength={10}
             style={{ width: 200, margin: 10 }}
-            value={""}
-            onChangeText={() => {}}
+            value={phoneNumber}
+            onChangeText={(text) => {handleNumberChange(text,setPhoneNumber)}}
           />
           <TextInput
             mode="outlined"
             label="Année de naissance"
+            maxLength={4}
             style={{ width: 200, margin: 10 }}
-            value={""}
-            onChangeText={(text) => {}}
+            value={yearOfBirth}
+            onChangeText={(text) => {handleNumberChange(text,setYearOfBirth)}}
           />
                     <TextInput
             mode="outlined"
-            label="Email"
+            label="Code Postal"
+            maxLength={9}
             style={{ width: 200, margin: 10 }}
-            value={""}
-            onChangeText={(text) => {}}
+            value={postalCode}
+            onChangeText={(text) => {handleNumberChange(text,setPostalCode)}}
           />
           <Text>Quelle(s) type(s) d'entreprises peuvent me contacter?</Text>
           <Button
@@ -185,7 +237,7 @@ const SignInScreen = ({ navigation }) => {
 <View style={{height:80,marginBottom:20}}>
 <FlatList
             horizontal={true}
-            data={tabOfThematics}
+            data={listOfThematics}
             renderItem={({ item }) => (
               <Chip
                 style={{ height: 40, margin: 10 }}
@@ -219,6 +271,7 @@ const style = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
+    position:"relative"
   },
 });
 export default SignInScreen;
