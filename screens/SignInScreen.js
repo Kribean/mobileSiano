@@ -10,13 +10,14 @@ import {
   useTheme
 } from "react-native-paper";
 import AlertSignInComponent from "../components/AlertSignInComponent";
+import { createAccount } from "../services/auth";
 
 
 const SignInScreen = ({ navigation }) => {
   const theme = useTheme();
 
   const [visible, setVisible] = useState(false);
-  const [errorAlert, setErrorAlert] = useState(true);
+  const [errorAlert, setErrorAlert] = useState(false);
   const [validateForm, setValidateForm] = useState(false);
 
   const [listOfThematics, setListOfThematics] = useState([]);
@@ -134,16 +135,25 @@ const SignInScreen = ({ navigation }) => {
     funcSet(numericValue);
   };
 
-  const goToNextStepIsChart = () => {
+  const createMyAccount = () => {
     if (
       userName.length > 2 &&
       phoneNumber.length == 10 &&
       yearOfBirth.length == 4 &&
-      postalCode.length > 2 &&
       postalCode.length > 1 &&
       listOfThematics.length>0 
     ) {
-     return ;
+      const body = {userName,phoneNumber,yearOfBirth,postalCode,listOfThematics}
+      createAccount(body)
+      .then((data)=>{
+        if(data.ok)
+        {
+          return navigation.navigate("Connexion");
+        }
+        setErrorAlert(true)
+      })
+      .catch((error)=>{setErrorAlert(true)})
+      //
     }
 
     
@@ -254,7 +264,7 @@ const SignInScreen = ({ navigation }) => {
           {validateForm && (
             <Button
               mode="contained"
-              onPress={() => navigation.navigate("Home")}
+              onPress={createMyAccount}
             >
               Valider
             </Button>

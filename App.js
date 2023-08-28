@@ -11,6 +11,10 @@ import {
   ActivityIndicator,
   MD3LightTheme as DefaultTheme,
 } from "react-native-paper";
+import { createContext } from 'react';
+import { UserContextProvider } from './Context';
+
+export const UserContext = createContext(null);
 
 const Stack = createNativeStackNavigator();
 const customTheme = {
@@ -34,16 +38,18 @@ const customTheme = {
 
 export default function App() {
   return (
-    <PaperProvider theme={customTheme}>
+<UserContextProvider>
+<PaperProvider theme={customTheme}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Checkout">
           <Stack.Screen name="Checkout" component={CheckoutScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="SignIn" component={SignInScreen} />
-          <Stack.Screen name="LogIn" component={LogInScreen} />
+          <Stack.Screen name="Se connecter" component={SignInScreen} />
+          <Stack.Screen name="Connexion" component={LogInScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
+</UserContextProvider> 
   );
 }
 

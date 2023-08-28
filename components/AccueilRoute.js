@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useContext} from "react";
 import { FlatList, View, StyleSheet, Linking } from "react-native";
 import {
   Avatar,
@@ -8,8 +8,12 @@ import {
   Badge,
   Button,
 } from "react-native-paper";
+import { UserContext } from "../Context";
+import CompanyCard from "./CompanyCard";
 
 const AccueilRoute = ({ navigation }) => {
+
+  const {user} = useContext(UserContext);
   const points = 15;
   const listBestComp = [
     {
@@ -29,155 +33,55 @@ const AccueilRoute = ({ navigation }) => {
     },
   ];
 
-  const listEvent = [
+  const listEvent =  [
     {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 1,
+      companyName: 'Entreprise A',
+      label: 'A+',
+      listOfProduct: ['Produit A', 'Produit B', 'Produit C'],
+      description: 'Description de l\'entreprise A swflmkjs fmsjkgms gsqgfksfgkq gqsfmjgq gsqmf gqsmfdgmqs fdmkgqkmgjfqj',
+      adress: 'Adresse de l\'entreprise A',
+      phoneNumber: '123-456-7890',
+      email: 'entrepriseA@example.com',
     },
     {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 2,
+      companyName: 'Entreprise B',
+      label: 'A',
+      listOfProduct: ['Produit X', 'Produit Y'],
+      description: 'Description de l\'entreprise B',
+      adress: 'Adresse de l\'entreprise B',
+      phoneNumber: '987-654-3210',
+      email: 'entrepriseB@example.com',
     },
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 3,
-    },
+    // ... Ajoutez d'autres objets d'entreprise ici
   ];
-
-  const callCompany = (phoneNumber) => {
-    const phoneUrl = `tel:${phoneNumber}`;
-    Linking.openURL(phoneUrl);
-  };
-
-  const sendEmail = (emailAddress) => {
-    const emailUrl = `mailto:${emailAddress}`;
-    Linking.openURL(emailUrl);
-  };
-
-  const sendToMap = (adress) => {
-    const adressUrl = `https://www.google.com/maps/place/${adress}`;
-    Linking.openURL(adressUrl);
-  };
-
+  
   return (
     <View style={style.container}>
       <View style={style.scoreSection}>
-        <Text variant="titleMedium">Votre nombre de points:{points} </Text>
+        <Text variant="titleMedium">Points acquis grâce à vos actes citoyens : {user?.pointsConsumer} </Text>
         <Avatar.Icon size={24} icon="database" />
       </View>
-      <View style={style.mainSectionEvent}>
-        <Text variant="titleLarge">Evènements</Text>
+
+      <View style={style.mainSection}>
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>Proche de chez vous</Text>
         <FlatList
-          horizontal={true}
           data={listEvent}
           renderItem={({ item }) => {
             return (
-              <Card style={{ margin: 10 }} mode="contained">
-                <Card.Title
-                  title={"10/02/2022 " + item.title}
-                  subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon="calendar" />}
-                />
-              </Card>
+<CompanyCard company={item}/>
             );
           }}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </View>
 
       <View style={style.mainSection}>
-        <Text variant="titleLarge">Proche de chez vous</Text>
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>Meilleures entreprises</Text>
         <FlatList
           data={listEvent}
           renderItem={({ item }) => {
             return (
-              <Card style={{ margin: 5 }} mode="contained">
-                <Badge>Fortement recommandée</Badge>
-                <Card.Title
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon="store" />}
-                  right={(props) => <Text variant="displaySmall">3.5</Text>}
-                />
-                <View
-                  style={{
-                    width: "100%",
-                    flexDirection: "row",
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    paddingBottom: 5,
-                  }}
-                >
-                  <Button
-                    mode="text"
-                    onPress={() =>
-                      sendToMap("5 Rue Bertrand Panouse, 31170 Tournefeuille")
-                    }
-                  >
-                    Adresse.
-                  </Button>
-                  <Button mode="text" onPress={() => callCompany("0645629957")}>
-                    Tél.
-                  </Button>
-                  <Button
-                    mode="text"
-                    onPress={() => sendEmail("ramael.bruno@gmail.com")}
-                  >
-                    Mail.
-                  </Button>
-                </View>
-              </Card>
-            );
-          }}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-
-      <View style={style.mainSection}>
-        <Text variant="titleLarge">Meilleures entreprises</Text>
-        <FlatList
-          data={listEvent}
-          renderItem={({ item }) => {
-            return (
-              <Card style={{ margin: 5 }} mode="contained">
-                <Badge>Entreprise prometteuse</Badge>
-                <Card.Title
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  left={(props) => <Avatar.Icon {...props} icon="store" />}
-                  right={(props) => <Text variant="displaySmall">2.5</Text>}
-                />
-                <View
-                  style={{
-                    width: "100%",
-                    flexDirection: "row",
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    paddingBottom: 5,
-                  }}
-                >
-                  <Button
-                    mode="text"
-                    onPress={() =>
-                      sendToMap("5 Rue Bertrand Panouse, 31170 Tournefeuille")
-                    }
-                  >
-                    Adresse.
-                  </Button>
-                  <Button mode="text" onPress={() => callCompany("0645629957")}>
-                    Tél.
-                  </Button>
-                  <Button
-                    mode="text"
-                    onPress={() => sendEmail("ramael.bruno@gmail.com")}
-                  >
-                    Mail.
-                  </Button>
-                </View>
-              </Card>
+<CompanyCard company={item}/>
             );
           }}
           keyExtractor={(item) => item.id}
@@ -201,15 +105,8 @@ const style = StyleSheet.create({
     paddingRight: 10,
     flexDirection: "row",
   },
-  mainSectionEvent: {
-    flex: 0.25,
-    width: "100%",
-    justifyContent: "end",
-    margin: 20,
-    paddingLeft: 20,
-  },
   mainSection: {
-    flex: 0.35,
+    flex: 0.475,
     margin: 20,
     width: "100%",
     justifyContent: "end",

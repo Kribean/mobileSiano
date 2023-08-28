@@ -22,10 +22,10 @@ const CheckoutScreen = ({navigation}) => {
   resizeMode="contain"
   style={{width:320}} 
   source={require("../assets/siano-black.png")}/>
-  <Button style={{margin:20}} mode="contained" onPress={() =>{navigation.navigate('LogIn')} }>
+  <Button style={{margin:20}} mode="contained" onPress={() =>{navigation.navigate('Connexion')} }>
     Se connecter
   </Button>
-  <Button  mode="contained" onPress={() =>{navigation.navigate('SignIn')} }>
+  <Button  mode="contained" onPress={() =>{navigation.navigate('Se connecter')} }>
     S'inscrire
   </Button>
  </View>)}
