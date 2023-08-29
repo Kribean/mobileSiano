@@ -14,7 +14,7 @@ import { getTenUpgradeCompanies,getAllCompanies } from "../services/auth";
 const AccueilRoute = ({ navigation }) => {
 
   const {user} = useContext(UserContext);
-  const points = 15;
+
   const [listBestComp,setListBestComp] = useState([]);
 
   const [listCompaniesAround,setListCompaniesAround] = useState([]);

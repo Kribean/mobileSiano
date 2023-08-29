@@ -3,6 +3,7 @@ import { Card, Badge, Title, Paragraph,useTheme,Button } from 'react-native-pape
 import { View,Linking } from 'react-native';
 
 const CompanyCard = ({ company }) => {
+  console.log(company,"oooookkkkk")
     const theme = useTheme();
     const callCompany = (phoneNumber) => {
         const phoneUrl = `tel:${phoneNumber}`;
@@ -20,8 +21,9 @@ const CompanyCard = ({ company }) => {
       };
 
       const sendToWebsite = (adress) => {
-        const adressUrl = `${adress}`;
-        Linking.openURL(adressUrl);
+      if(adress.length>4)
+        {  const adressUrl = `${adress}`;
+        Linking.openURL(adressUrl);}
       };
     
 
@@ -47,18 +49,18 @@ const CompanyCard = ({ company }) => {
           Entreprise prometteuse
         </Badge>}
         <Title style={{ fontSize: 24, fontWeight: 'bold' }}>
-          {company.companyName}
+          Nom: {company.companyName}
         </Title>
       </Card.Content>
       <Card.Content>
         <Title>Produit:</Title>
-<View style={{flexDirection:"row"}}>
+{company.listOfProduct?.length>0&&<View style={{flexDirection:"row"}}>
 {company.listOfProduct.map((element, index) => (
           <Badge key={index} style={{ margin: 2,backgroundColor:theme.colors.accent }}>
             {element}
           </Badge>
         ))}
-</View>
+</View>}
         <Paragraph style={{ marginTop: 8 }}>
           Description: {company.description}
         </Paragraph>
@@ -85,13 +87,13 @@ const CompanyCard = ({ company }) => {
                     Mail.
                   </Button>
 
-                  {company.websiteCompany&&        <Button
+                  <Button
                   style={{margin:5,width:100}}
                     mode="text"
                     onPress={() => sendToWebsite(company.websiteCompany)}
                   >
-                    Site web
-                  </Button>}
+                    {company.websiteCompany?.length>4?"Site web":"Pas de site web"}
+                  </Button>
 </View>
       </Card.Content>
     </Card>

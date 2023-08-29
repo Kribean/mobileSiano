@@ -7,11 +7,10 @@ import {
   Portal,
   Modal,
   Chip,
-  useTheme
+  useTheme,
 } from "react-native-paper";
 import AlertSignInComponent from "../components/AlertSignInComponent";
 import { createAccount } from "../services/auth";
-
 
 const SignInScreen = ({ navigation }) => {
   const theme = useTheme();
@@ -21,10 +20,10 @@ const SignInScreen = ({ navigation }) => {
   const [validateForm, setValidateForm] = useState(false);
 
   const [listOfThematics, setListOfThematics] = useState([]);
-  const [userName,setUserName] = useState("");
-  const [phoneNumber,setPhoneNumber]=useState("");
-  const [yearOfBirth,setYearOfBirth]=useState("");
-  const [postalCode,setPostalCode]=useState("");
+  const [userName, setUserName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [yearOfBirth, setYearOfBirth] = useState("");
+  const [postalCode, setPostalCode] = useState("");
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -141,48 +140,63 @@ const SignInScreen = ({ navigation }) => {
       phoneNumber.length == 10 &&
       yearOfBirth.length == 4 &&
       postalCode.length > 1 &&
-      listOfThematics.length>0 
+      listOfThematics.length > 0
     ) {
-      const body = {userName,phoneNumber,yearOfBirth,postalCode,listOfThematics}
+      const body = {
+        userName,
+        phoneNumber,
+        yearOfBirth,
+        postalCode,
+        listOfThematics,
+      };
       createAccount(body)
-      .then((data)=>{
-        if(data.ok)
-        {
-          return navigation.navigate("Connexion");
-        }
-        setErrorAlert(true)
-      })
-      .catch((error)=>{setErrorAlert(true)})
+        .then((data) => {
+          if (data.ok) {
+            return navigation.navigate("Connexion");
+          }
+          setErrorAlert(true);
+        })
+        .catch((error) => {
+          setErrorAlert(true);
+        });
       //
     }
-
-    
-
   };
 
   return (
-
-      <View style={style.container}>
-{errorAlert&&<AlertSignInComponent     
-    typeOfNotification={"typeOfNotification"}
-    title={"Oops!"}
-    description={"Il y' a un problème de connexion. Avez vous déjà créé un compte avec ce numéro de téléphone? N'hésitez pas à nous le mentionner en cliquant sur le bouton ci-dessous si vous pensez qu'il y a un problème."}
-    setErrorAlert={setErrorAlert}
-    />}
-              <Portal>
+    <View style={style.container}>
+      {errorAlert && (
+        <AlertSignInComponent
+          typeOfNotification={"typeOfNotification"}
+          title={"Oops!"}
+          description={
+            "Il y' a un problème de connexion. Avez vous déjà créé un compte avec ce numéro de téléphone? N'hésitez pas à nous le mentionner en cliquant sur le bouton ci-dessous si vous pensez qu'il y a un problème."
+          }
+          setErrorAlert={setErrorAlert}
+        />
+      )}
+      <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
           contentContainerStyle={containerStyle}
         >
-          <View style={{flexDirection:"row"}}>
-          <Button buttonColor={theme.colors.error} style={{width:100}} icon="close" mode="contained" onPress={hideModal}>
-    Fermer
-  </Button>
+          <View style={{ flexDirection: "row" }}>
+            <Button
+              buttonColor={theme.colors.error}
+              style={{ width: 150 }}
+              icon="close"
+              mode="contained"
+              onPress={hideModal}
+            >
+              Fermer
+            </Button>
           </View>
           <FlatList
             style={{ height: 500 }}
-            data={dataTheme.filter((element)=>{return !listOfThematics.includes(element.activity)})}
+            data={dataTheme.filter((element) => {
+              return !listOfThematics.includes(element.activity);
+            })}
             renderItem={({ item }) => (
               <Button
                 style={{ margin: 5 }}
@@ -196,82 +210,85 @@ const SignInScreen = ({ navigation }) => {
           />
         </Modal>
       </Portal>
-        
-          <Image
-            resizeMode="contain"
-            style={{ width: 100 }}
-            source={require("../assets/siano-black.png")}
-          />
-          <TextInput
-            mode="outlined"
-            label="Prénom"
-            maxLength={20}
-            style={{ width: 200, margin: 10 }}
-            value={userName}
-            onChangeText={(event) => {setUserName(event)}}
-          />
-          <TextInput
-            mode="outlined"
-            label="Numéro de téléphone"
-            maxLength={10}
-            style={{ width: 200, margin: 10 }}
-            value={phoneNumber}
-            onChangeText={(text) => {handleNumberChange(text,setPhoneNumber)}}
-          />
-          <TextInput
-            mode="outlined"
-            label="Année de naissance"
-            maxLength={4}
-            style={{ width: 200, margin: 10 }}
-            value={yearOfBirth}
-            onChangeText={(text) => {handleNumberChange(text,setYearOfBirth)}}
-          />
-                    <TextInput
-            mode="outlined"
-            label="Code Postal"
-            maxLength={9}
-            style={{ width: 200, margin: 10 }}
-            value={postalCode}
-            onChangeText={(text) => {handleNumberChange(text,setPostalCode)}}
-          />
-          <Text>Quelle(s) type(s) d'entreprises peuvent me contacter?</Text>
-          <Button
-            icon="store"
-            mode="contained"
-            style={{ margin: 20, width: 200 }}
-            onPress={showModal}
-          >
-            Ajouter catégorie(s)
-          </Button>
 
-<View style={{height:80,marginBottom:20}}>
-<FlatList
-            horizontal={true}
-            data={listOfThematics}
-            renderItem={({ item }) => (
-              <Chip
-                style={{ height: 40, margin: 10 }}
-                closeIcon="close"
-                onClose={() => removeThematic(item)}
-              >
-                {item}
-              </Chip>
-            )}
-            keyExtractor={(item, index) => index}
-          />
-</View>
+      <Image
+        resizeMode="contain"
+        style={{ width: 100 }}
+        source={require("../assets/siano-black.png")}
+      />
+      <TextInput
+        mode="outlined"
+        label="Prénom"
+        maxLength={20}
+        style={{ width: 200, margin: 10 }}
+        value={userName}
+        onChangeText={(event) => {
+          setUserName(event);
+        }}
+      />
+      <TextInput
+        mode="outlined"
+        label="Numéro de téléphone"
+        maxLength={10}
+        style={{ width: 200, margin: 10 }}
+        value={phoneNumber}
+        onChangeText={(text) => {
+          handleNumberChange(text, setPhoneNumber);
+        }}
+      />
+      <TextInput
+        mode="outlined"
+        label="Année de naissance"
+        maxLength={4}
+        style={{ width: 200, margin: 10 }}
+        value={yearOfBirth}
+        onChangeText={(text) => {
+          handleNumberChange(text, setYearOfBirth);
+        }}
+      />
+      <TextInput
+        mode="outlined"
+        label="Code Postal"
+        maxLength={9}
+        style={{ width: 200, margin: 10 }}
+        value={postalCode}
+        onChangeText={(text) => {
+          handleNumberChange(text, setPostalCode);
+        }}
+      />
+      <Text>Quelle(s) type(s) d'entreprises peuvent me contacter?</Text>
+      <Button
+        icon="store"
+        mode="contained"
+        style={{ margin: 20, width: 200 }}
+        onPress={showModal}
+      >
+        Ajouter catégorie(s)
+      </Button>
 
-          {validateForm && (
-            <Button
-              mode="contained"
-              onPress={createMyAccount}
+      <View style={{ height: 80, marginBottom: 20 }}>
+        <FlatList
+          horizontal={true}
+          data={listOfThematics}
+          renderItem={({ item }) => (
+            <Chip
+              style={{ height: 40, margin: 10 }}
+              closeIcon="close"
+              onClose={() => removeThematic(item)}
             >
-              Valider
-            </Button>
+              {item}
+            </Chip>
           )}
-
+          keyExtractor={(item, index) => index}
+        />
       </View>
- 
+
+      {validateForm && (
+        <Button mode="contained" onPress={createMyAccount}>
+          Valider
+        </Button>
+      )}
+    </View>
   );
 };
 
@@ -281,7 +298,7 @@ const style = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    position:"relative"
+    position: "relative",
   },
 });
 export default SignInScreen;
