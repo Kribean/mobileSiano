@@ -1,9 +1,21 @@
-import * as React from "react";
+import {useState} from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton, Text, Button } from "react-native-paper";
+import { Avatar, Card, IconButton, Text, Button,Switch } from "react-native-paper";
 import CardScore from "./CardScore";
 
+
 const CompanyRoute = ({ navigation }) => {
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const onToggleSwitch = () => {
+
+    if(!isSwitchOn)
+    {
+
+    }else{
+
+    }
+    return setIsSwitchOn(!isSwitchOn);
+    };
 
   const listEvent = [
     {
@@ -28,6 +40,12 @@ const CompanyRoute = ({ navigation }) => {
       <Text variant="titleLarge">
         Evaluer les entreprises qui m'ont contacté
       </Text>
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+            <Text variant="labelMedium">
+            "Réévaluez en cliquant ici !
+            </Text>
+            <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
+          </View>
       <View style={style.mainSection}>
         <FlatList
           data={listEvent}

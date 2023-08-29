@@ -11,11 +11,17 @@ const CardScore = (props ) => {
     { score: 4, color: "#76d167" },
     { score: 5, color: "#1ac5a8ff" },
   ];
+  const roo=false;
   return (
     <Card
-    style={{ flex: 0.5, margin: 10, padding:10 }}
+    style={{ margin: 10, padding:10 }}
     mode="contained"
   >
+          <Card.Cover
+        source={require('../assets/shopfruit.png')}
+        resizeMode="cover"
+        style={{ height: 70 }}
+      />
     <Card.Title
       title={props.item.title}
       subtitle={props.item.subtitle}
@@ -38,11 +44,11 @@ const CardScore = (props ) => {
         </Button>
       ))}
     </View>
-    <View style={{ flexDirection: "row",justifyContent:"space-between" }}>
+{ roo&&   <View style={{ flexDirection: "row",justifyContent:"space-between" }}>
     <Text variant="titleMedium">Mauvais service</Text>
     <Text variant="titleMedium">Excellent service</Text>
-        </View>
-    <View style={{ flexDirection: "row" }}>
+        </View>}
+{ roo&&  <View style={{ flexDirection: "row" }}>
       {assess.map((element) => (
         <Button
         key={element.score}
@@ -53,7 +59,7 @@ const CardScore = (props ) => {
           {element.score}
         </Button>
       ))}
-    </View>
+    </View>}
   </Card>
   );
 };
