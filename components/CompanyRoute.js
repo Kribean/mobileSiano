@@ -19,7 +19,18 @@ const CompanyRoute = ({ navigation }) => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [textPlace, setTextPlace] = useState("");
   const [listCompanies,setListCompanies] = useState([]);
-  const onToggleSwitch = () => setIsSwitchOn(!isSwitchOn);
+  const [listAllCompanies,setListAllCompanies] = useState([]);
+  const onToggleSwitch = () => {
+
+    if(!isSwitchOn)
+    {
+      const companies = listAllCompanies.filter((element)=>{return element.label.length>0})
+      setListCompanies(companies);
+    }else{
+      setListCompanies(listAllCompanies);
+    }
+    return setIsSwitchOn(!isSwitchOn);
+    };
   const showModal = () => setVisible(true);
   const containerStyle = { backgroundColor: "white", padding: 20 };
   const [listOfThematics, setListOfThematics] = useState([]);
@@ -35,7 +46,7 @@ const CompanyRoute = ({ navigation }) => {
       throw new Error("cannot get best companies");
     
     })
-    .then((data)=>{ setListCompanies(data)})
+    .then((data)=>{ setListCompanies(data);setListAllCompanies(data)})
     .catch((error)=>{console.log("error: ",error)})
   },[])
 
@@ -119,7 +130,17 @@ const CompanyRoute = ({ navigation }) => {
 
   const addThematic = (theme) => {
     if (!listOfThematics.includes(theme)) {
-      setListOfThematics([...listOfThematics, theme]);
+      
+      
+      const listNew = [...listOfThematics, theme];
+if(listNew.length>0)
+{
+  const listCompaniesNew = listAllCompanies?.filter((element)=>{return listNew.includes(element.thematicCompany)})
+  setListOfThematics(listNew);
+  setListCompanies(listCompaniesNew);
+
+}
+      
     }
   };
 
@@ -127,6 +148,14 @@ const CompanyRoute = ({ navigation }) => {
     if (listOfThematics.length > 0) {
       const tab = listOfThematics.filter((element) => !(element == theme));
       setListOfThematics(tab);
+      if(tab.length>0)
+      {
+        const listCompaniesNew = listAllCompanies?.filter((element)=>{return tab.includes(element.thematicCompany)})
+        setListCompanies(listCompaniesNew);
+      }else if(tab.length==0)
+      {
+        setListCompanies(listAllCompanies);
+      }
     }
   };
 
@@ -137,6 +166,11 @@ const CompanyRoute = ({ navigation }) => {
   const handleNumberChange = (event) => {
     const numericValue = filterNonNumeric(event);
     setTextPlace(numericValue);
+    if(listAllCompanies.length>0)
+    {
+      const varFilterNum = listAllCompanies.filter((element)=>element.postalCode?.toString().includes(event));
+      setListCompanies(varFilterNum)
+    }
   };
 
 

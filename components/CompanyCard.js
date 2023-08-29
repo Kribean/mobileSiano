@@ -3,7 +3,6 @@ import { Card, Badge, Title, Paragraph,useTheme,Button } from 'react-native-pape
 import { View,Linking } from 'react-native';
 
 const CompanyCard = ({ company }) => {
-  console.log(company,"oooookkkkk")
     const theme = useTheme();
     const callCompany = (phoneNumber) => {
         const phoneUrl = `tel:${phoneNumber}`;
