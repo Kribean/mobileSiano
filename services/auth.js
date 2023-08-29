@@ -36,3 +36,17 @@ export function getAllEvents ()
     
   })
 };
+
+export function getTenUpgradeCompanies ()
+{
+   return fetch(`${API_URL}/api/auth-company/best-one`, {
+        method: "GET"
+      })
+};
+
+export function getAllCompanies (endpoint)
+{
+   return fetch(`${API_URL}/api/auth-consumer/all-companies${endpoint}`, {
+        method: "GET",
+      })
+};

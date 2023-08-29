@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import { FlatList, View, StyleSheet, Linking } from "react-native";
 import {
   Avatar,
@@ -10,50 +10,42 @@ import {
 } from "react-native-paper";
 import { UserContext } from "../Context";
 import CompanyCard from "./CompanyCard";
-
+import { getTenUpgradeCompanies,getAllCompanies } from "../services/auth";
 const AccueilRoute = ({ navigation }) => {
 
   const {user} = useContext(UserContext);
   const points = 15;
-  const listBestComp = [
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 1,
-    },
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 2,
-    },
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 3,
-    },
-  ];
+  const [listBestComp,setListBestComp] = useState([]);
 
-  const listEvent =  [
-    {
-      companyName: 'Entreprise A',
-      label: 'A+',
-      listOfProduct: ['Produit A', 'Produit B', 'Produit C'],
-      description: 'Description de l\'entreprise A swflmkjs fmsjkgms gsqgfksfgkq gqsfmjgq gsqmf gqsmfdgmqs fdmkgqkmgjfqj',
-      adress: 'Adresse de l\'entreprise A',
-      phoneNumber: '123-456-7890',
-      email: 'entrepriseA@example.com',
-    },
-    {
-      companyName: 'Entreprise B',
-      label: 'A',
-      listOfProduct: ['Produit X', 'Produit Y'],
-      description: 'Description de l\'entreprise B',
-      adress: 'Adresse de l\'entreprise B',
-      phoneNumber: '987-654-3210',
-      email: 'entrepriseB@example.com',
-    },
-    // ... Ajoutez d'autres objets d'entreprise ici
-  ];
+  const [listCompaniesAround,setListCompaniesAround] = useState([]);
+
+  useEffect(()=>{
+getTenUpgradeCompanies()
+.then((data)=>{
+  if(data.ok)
+  {
+    return data.json();
+  }
+  throw new Error("cannot get best companies");
+
+})
+.then((data)=>{ setListBestComp(data)})
+.catch((error)=>{console.log("error: ",error)})
+
+const endpoint=`?postalCode=${user?.postalCode?user?.postalCode:""}`;
+
+getAllCompanies(endpoint).then((data)=>{
+  if(data.ok)
+  {
+    return data.json();
+  }
+  throw new Error("cannot get best companies");
+
+})
+.then((data)=>{ setListCompaniesAround(data)})
+.catch((error)=>{console.log("error: ",error)})
+
+  },[])
   
   return (
     <View style={style.container}>
@@ -64,28 +56,32 @@ const AccueilRoute = ({ navigation }) => {
 
       <View style={style.mainSection}>
         <Text variant="titleMedium" style={{fontWeight:"bold"}}>Proche de chez vous</Text>
-        <FlatList
-          data={listEvent}
+       {listCompaniesAround.length>0? <FlatList
+          data={listCompaniesAround}
           renderItem={({ item }) => {
             return (
-<CompanyCard company={item}/>
+<CompanyCard  company={item}/>
             );
           }}
           keyExtractor={(item) => item._id}
-        />
+        />:
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>Nous n'avons pas encore d'entreprises dans votre région. 😉</Text>
+        }
       </View>
 
       <View style={style.mainSection}>
         <Text variant="titleMedium" style={{fontWeight:"bold"}}>Meilleures entreprises</Text>
-        <FlatList
-          data={listEvent}
+        {listBestComp.length>0 ?<FlatList
+          data={listBestComp}
           renderItem={({ item }) => {
             return (
-<CompanyCard company={item}/>
+<CompanyCard  company={item}/>
             );
           }}
-          keyExtractor={(item) => item.id}
-        />
+          keyExtractor={(item) => item._id}
+        />:
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>Nous n'avons pas encore d'entreprises dans votre région. 😉</Text>
+        }
       </View>
     </View>
   );

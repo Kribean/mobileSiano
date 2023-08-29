@@ -44,7 +44,7 @@ getAllEvents()
      startAt={item.startAt}/>
             );
           }}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </View>
