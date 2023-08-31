@@ -1,18 +1,17 @@
 import {useContext, useEffect, useState} from "react";
-import { FlatList, View, StyleSheet, Linking } from "react-native";
+import { FlatList, View, StyleSheet} from "react-native";
 import {
   Avatar,
-  Card,
-  IconButton,
   Text,
-  Badge,
-  Button,
+  useTheme
 } from "react-native-paper";
 import { UserContext } from "../Context";
 import CompanyCard from "./CompanyCard";
 import { getTenUpgradeCompanies,getAllCompanies } from "../services/auth";
+
 const AccueilRoute = ({ navigation }) => {
 
+  const theme=useTheme();
   const {user} = useContext(UserContext);
 
   const [listBestComp,setListBestComp] = useState([]);
@@ -50,8 +49,9 @@ getAllCompanies(endpoint).then((data)=>{
   return (
     <View style={style.container}>
       <View style={style.scoreSection}>
-        <Text variant="titleMedium">Points acquis grâce à vos actes citoyens : {user?.pointsConsumer} </Text>
-        <Avatar.Icon size={24} icon="database" />
+        <Text variant="titleMedium">Points acquis grâce à vos actes citoyens :</Text> 
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>{user?.pointsConsumer}</Text> 
+        <Avatar.Icon style={{backgroundColor:theme.colors.accent}} size={24} icon="star" />
       </View>
 
       <View style={style.mainSection}>
@@ -98,6 +98,7 @@ const style = StyleSheet.create({
     flex: 0.05,
     width: "100%",
     justifyContent: "flex-end",
+    alignItems:"center",
     paddingRight: 10,
     flexDirection: "row",
   },

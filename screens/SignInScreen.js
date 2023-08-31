@@ -34,6 +34,8 @@ const SignInScreen = ({ navigation }) => {
       setValidateForm(true);
     }
   }, [listOfThematics]);
+
+  
   const dataTheme = [
     {
       activity: "Activité sportive",

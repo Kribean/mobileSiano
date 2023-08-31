@@ -1,12 +1,15 @@
-import {useState} from "react";
+import { useContext, useEffect, useState } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
-import { Avatar, Card, IconButton, Text, Button,Switch } from "react-native-paper";
+import { Text } from "react-native-paper";
 import CardScore from "./CardScore";
-
+import { getAllScores } from "../services/auth";
+import { UserContext } from "../Context";
 
 const CompanyRoute = ({ navigation }) => {
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
-  const onToggleSwitch = () => {
+  const { user } = useContext(UserContext);
+  const [listScoresNotAssessYet, setListScoresNotAssessYet] = useState([]);
+
+  /* const onToggleSwitch = () => {
 
     if(!isSwitchOn)
     {
@@ -15,43 +18,48 @@ const CompanyRoute = ({ navigation }) => {
 
     }
     return setIsSwitchOn(!isSwitchOn);
-    };
+    };*/
 
-  const listEvent = [
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 1,
-    },
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 2,
-    },
-    {
-      title: "toloman",
-      subtitle: "toloman sé on antrepise ki lé mété an avant...",
-      id: 3,
-    },
-  ];
+  useEffect(() => {
+    if (user.token) {
+      getAllScores(user.token)
+        .then((data) => {
+          if (data.ok) {
+            return data.json();
+          }
+          throw new Error("cannot get errors");
+        })
+        .then((data) => {
+          setListScoresNotAssessYet(
+            data.filter((element) => !element.alreadyAssess)
+          );
+        })
+        .catch((error) => console.log("error : ", error));
+    }
+  }, []);
 
   return (
     <View style={style.container}>
       <Text variant="titleLarge">
-        Evaluer les entreprises qui m'ont contacté
+        Evaluer les entreprises qui m'ont contacté et gagner 1 point
       </Text>
-      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+      {/**    <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
             <Text variant="labelMedium">
             "Réévaluez en cliquant ici !
             </Text>
             <Switch value={isSwitchOn} onValueChange={onToggleSwitch} />
-          </View>
+  </View>*/}
       <View style={style.mainSection}>
+      {listScoresNotAssessYet.length==0&&<Text style={{margin:30}} variant="titleLarge">😀Bel bonjou! Vous n'avez pas d'évaluations à faire </Text>}
         <FlatList
-          data={listEvent}
+          data={listScoresNotAssessYet}
           renderItem={({ item }) => {
             return (
-              <CardScore item={item}/>
+              <CardScore
+                item={item}
+                listScoresNotAssessYet={listScoresNotAssessYet}
+                setListScoresNotAssessYet={setListScoresNotAssessYet}
+              />
             );
           }}
           keyExtractor={(item) => item.id}

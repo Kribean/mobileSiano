@@ -50,3 +50,43 @@ export function getAllCompanies (endpoint)
         method: "GET",
       })
 };
+
+export function getAllScores (token)
+{
+  
+  return fetch(`${API_URL}/api/auth-consumer/score-company`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    }
+    
+  })
+};
+
+export function updateScore (body,token,idCompany,idScore)
+{
+   return fetch(`${API_URL}/api/auth-consumer/company/${idCompany}/score/${idScore}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(body),
+      })
+};
+
+export function modifyAccount(body,token)
+{
+  return fetch(`${API_URL}/api/auth-consumer/`, {
+       method: "PUT",
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`
+       },
+       body: JSON.stringify(body),
+     })
+};
