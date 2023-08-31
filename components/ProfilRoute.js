@@ -20,7 +20,7 @@ const ProfilRoute = ({ navigation }) => {
 
   const {user} = useContext(UserContext);
 
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(user.beVisible);
 
   const [visible, setVisible] = useState(false);
 
@@ -145,6 +145,7 @@ const ProfilRoute = ({ navigation }) => {
       listOfThematics.length > 0
     ) {
       const body = {
+        email,
         userName,
         postalCode,
         listOfThematics,

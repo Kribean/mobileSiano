@@ -50,7 +50,7 @@ getAllCompanies(endpoint).then((data)=>{
     <View style={style.container}>
       <View style={style.scoreSection}>
         <Text variant="titleMedium">Points acquis grâce à vos actes citoyens :</Text> 
-        <Text variant="titleMedium" style={{fontWeight:"bold"}}>{user?.pointsConsumer}</Text> 
+        <Text variant="titleMedium" style={{fontWeight:"bold"}}>{user.score}</Text> 
         <Avatar.Icon style={{backgroundColor:theme.colors.accent}} size={24} icon="star" />
       </View>
 
