@@ -90,3 +90,22 @@ export function modifyAccount(body,token)
        body: JSON.stringify(body),
      })
 };
+
+export function deleteAccount(token)
+{
+  return fetch(`${API_URL}/api/auth-consumer/`, {
+       method: "DELETE",
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json",
+         Authorization: `Bearer ${token}`
+       },
+     })
+};
+
+export function getNotification ()
+{
+   return fetch(`${API_URL}/api/notification/0`, {
+        method: "GET"
+      })
+};

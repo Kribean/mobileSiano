@@ -11,11 +11,12 @@ import {
   useTheme
 } from "react-native-paper";
 import { UserContext } from "../Context";
-import { modifyAccount } from "../services/auth";
+import { modifyAccount,deleteAccount } from "../services/auth";
 import AlertSignInComponent from "./AlertSignInComponent";
+import { useNavigation } from "@react-navigation/native";
+const ProfilRoute = () => {
 
-const ProfilRoute = ({ navigation }) => {
-
+  const navigation = useNavigation();
   const theme = useTheme();
 
   const {user} = useContext(UserContext);
@@ -153,17 +154,23 @@ const ProfilRoute = ({ navigation }) => {
       };
       modifyAccount(body,user.token)
         .then((data) => {
-            return navigation.navigate("Connexion");
+
+             if(data.ok)
+             {
+              return navigation.navigate("Connexion");
+             }
+             throw new Error("cannot succeed to modify")
         })
-        .catch((error) => {
-          setErrorAlert(true);
-        });
-      //
+        .catch((error)=>{setErrorAlert(true);})
     }
   };
 
   const deleteMyAccount =()=>{
-
+    deleteAccount(user.token)
+    .then((data)=>{
+      return navigation.navigate("Siano")
+    })
+    .catch((error)=>{setErrorAlert(true);console.log("didn't succeed to delete your account")})
   }
 
   return (
@@ -267,7 +274,7 @@ const ProfilRoute = ({ navigation }) => {
       <View style={{ width:"100%", flexDirection: "column" }}>
 
 
-        {listOfThematics.map((item,index)=>{console.log(item,'kayaj');return         (<Chip
+        {listOfThematics.map((item,index)=>{return (<Chip
               style={{ height: 40, margin: 10,backgroundColor:theme.colors.accent }}
               closeIcon="close"
               onClose={() => removeThematic(item)}

@@ -41,8 +41,8 @@ export default function App() {
 <UserContextProvider>
 <PaperProvider theme={customTheme}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Checkout">
-          <Stack.Screen name="Checkout" component={CheckoutScreen} />
+        <Stack.Navigator initialRouteName="Siano">
+          <Stack.Screen name="Siano" component={CheckoutScreen} />
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Se connecter" component={SignInScreen} />
           <Stack.Screen name="Connexion" component={LogInScreen} />

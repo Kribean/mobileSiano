@@ -33,7 +33,6 @@ const CheckoutScreen = ({navigation}) => {
       throw new Error ("not succeed to get user")
      })
      .then((data)=>{
-      console.log(data);
       setUser(data);
       navigation.navigate("Home")
      })

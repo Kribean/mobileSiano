@@ -1,20 +1,39 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import { Image, View, StyleSheet } from 'react-native';
 import { Button,Banner } from 'react-native-paper';
 import InformationComponent from '../components/InformationComponent';
+import { getNotification } from '../services/auth';
 
 const CheckoutScreen = ({navigation}) => {
 
-  const [visible, setVisible] = React.useState(true);
+  const [visible, setVisible] = useState(false);
+  const [notification, setNotification] = useState(true);
+
+  useEffect(()=>{
+    getNotification()
+    .then((data)=>{
+      if(data.ok)
+      {
+        return data.json();
+      }
+      throw new Error("pas de notification")
+    })
+    .then((data)=>{
+      if(data.length>0)
+      {setNotification(data[0]);
+      setVisible(true)}
+    })
+    .catch((error)=>{console.log(error, "something wrong happen, tell us at caraibe.simulation@gmail.com")})
+  },[])
 
   return (<View style={style.container}>
 
 {visible&&<InformationComponent     
     typeOfNotification={"typeOfNotification"}
-    title={"Kouté sa!"}
-    description={"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."}
-    appearUrl={true}
-    url={"https://google.com"}
+    title={notification.title}
+    description={notification.description}
+    appearUrl={notification.appearUrl}
+    url={notification.url}
     setVisible={setVisible}
     />}
 
