@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = "https://siano-68ab8a611f1c.herokuapp.com";
 
 export function createAccount (body)
 {

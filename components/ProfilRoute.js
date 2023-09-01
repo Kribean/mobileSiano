@@ -26,7 +26,7 @@ const ProfilRoute = () => {
   const [visible, setVisible] = useState(false);
 
   const [listOfThematics, setListOfThematics] = useState(user.listOfThematics);
-  const [postalCode, setPostalCode] = useState(user.postalCode);
+  const [postalCode, setPostalCode] = useState(user.postalCode.toString());
   const [userName,setUserName] =useState(user.userName);
   const [email,setEmail] =useState(user.email);
   const [errorAlert,setErrorAlert] =useState(false);
@@ -137,7 +137,7 @@ const ProfilRoute = () => {
 
   const handleNumberChange = (event, funcSet) => {
     const numericValue = filterNonNumeric(event);
-    funcSet(numericValue);
+    funcSet(numericValue.toString());
   };
 
   const modifyMyAccount = () => {
@@ -257,7 +257,7 @@ const ProfilRoute = () => {
         label="Code Postal"
         maxLength={9}
         style={{ width: 200, margin: 10 }}
-        value={postalCode}
+        value={postalCode.toString()}
         onChangeText={(text) => {
           handleNumberChange(text, setPostalCode);
         }}
@@ -291,14 +291,14 @@ const ProfilRoute = () => {
         maxLength={10}
         style={{ width: 200, margin: 10 }}
         disabled
-        value={user.phoneNumber}
+        value={user.phoneNumber.toString()}
       />
       <TextInput
         mode="outlined"
         label="Année de naissance"
         maxLength={4}
         style={{ width: 200, margin: 10 }}
-        value={user.yearOfBirth}
+        value={user.yearOfBirth.toString()}
         disabled
 
       />

@@ -133,7 +133,7 @@ const SignInScreen = ({ navigation }) => {
 
   const handleNumberChange = (event, funcSet) => {
     const numericValue = filterNonNumeric(event);
-    funcSet(numericValue);
+    funcSet(numericValue.toString());
   };
 
   const createMyAccount = () => {

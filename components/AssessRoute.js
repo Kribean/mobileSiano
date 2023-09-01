@@ -62,7 +62,7 @@ const CompanyRoute = ({ navigation }) => {
               />
             );
           }}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
         />
       </View>
     </View>

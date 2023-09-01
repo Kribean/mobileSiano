@@ -11,6 +11,8 @@ import {
 import { updateScore } from "../services/auth";
 import { UserContext } from "../Context";
 
+const fruitImage = require("../assets/shopfruit.png");
+
 const CardScore = ({ item, setListScoresNotAssessYet,listScoresNotAssessYet }) => {
   const theme = useTheme();
   const { user } = useContext(UserContext);
@@ -56,7 +58,7 @@ const CardScore = ({ item, setListScoresNotAssessYet,listScoresNotAssessYet }) =
   return (
     <Card style={{ margin: 10, padding: 10 }} mode="contained">
       <Card.Cover
-        source={require("../assets/shopfruit.png")}
+        source={fruitImage}
         resizeMode="cover"
         style={{ height: 70 }}
       />
